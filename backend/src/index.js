@@ -19,7 +19,7 @@ const startServer = async () => {
         await connectDB();
     } catch (error) {
         console.error('Error starting the server:', error.message);
-        console.error('Error connecting to MongoDB:', error.message);
+        console.error('Error connecting to DB:', error.message);
         process.exit(1);
     }
 }
