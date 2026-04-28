@@ -13,7 +13,7 @@ const startServer = async () => {
             throw error;
         });
 
-        app.listen(process.env.PORT || process.env.ALT_PORT_NUMBER, () => {
+        app.listen(process.env.PORT_NUMBER || process.env.ALT_PORT_NUMBER, () => {
             console.log(`Server is running on port ${process.env.PORT_NUMBER || process.env.ALT_PORT_NUMBER}`);
         });
         await connectDB();
