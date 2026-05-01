@@ -1,4 +1,5 @@
 'use client';
+import { Link } from "react-router";
 
 export default function Header() {
     return (
@@ -11,31 +12,31 @@ export default function Header() {
                     <ul
                         tabIndex={-1}
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                        <li><a>Trendings</a></li>
-                        <li><a>Upcoming Show</a></li>
+                        <li><Link to="/trendings">Trendings</Link></li>
+                        <li><Link to="/upcoming">Upcoming Shows</Link></li>
                         <li>
                         <a>Shows</a>
                         <ul className="p-2">
-                            <li><a>Movies</a></li>
-                            <li><a>TV Shows</a></li>
+                            <li><Link to="/movies">Movies</Link></li>
+                            <li><Link to="/tv-shows">TV Shows</Link></li>
                         </ul>
                         </li>
-                        <li><a>Login</a></li>
-                        <li><a>Sign Up</a></li>
+                        <li><Link to="/login">Login</Link></li>
+                        <li><Link to="/signup">Sign Up</Link></li>
                     </ul>
                 </div>
                 <a className="btn btn-ghost text-xl">MovieCritique</a>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1 space-x-2">
-                    <li><a>Trendings</a></li>
-                    <li><a>Upcoming Shows</a></li>
+                    <li><Link to="/trendings">Trendings</Link></li>
+                    <li><Link to="/upcoming">Upcoming Shows</Link></li>
                     <li>
                         <details>
                         <summary>Shows</summary>
                         <ul className="p-2 bg-base-100 w-40 z-1">
-                            <li><a>Movies</a></li>
-                            <li><a>TV Shows</a></li>
+                             <li><Link to="/movies">Movies</Link></li>
+                            <li><Link to="/tv-shows">TV Shows</Link></li>
                         </ul>
                         </details>
                     </li>
