@@ -1,8 +1,15 @@
+import AppPageLayout from "../components/layout/appLayout";
+import Header from "../components/headers/header";
+import Footer from "../components/footer/footer";
+
 export default function Trendings() {
   return (
-    <div>
-      <h1>Trending Movies and TV Shows</h1>
-      {/* You can add more content here, such as lists of trending movies and TV shows */}
-    </div>
+    <>
+      <Header />
+        <AppPageLayout>
+            Hello, Trending Page!
+        </AppPageLayout>
+      <Footer />
+    </>
   );
 }
