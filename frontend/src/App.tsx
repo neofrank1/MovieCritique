@@ -7,12 +7,14 @@ import Hero from './components/landPageComponents/hero';
 import { Card } from './components/Card';
 import DescriptionCard from './components/landPageComponents/description';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router';
 
 export default function App() {
 
   const [data, setData] = useState<any>(null);
   const [tvData, setTvData] = useState<any>(null);
   const [posterData, setPosterData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     // for Movies
@@ -20,7 +22,7 @@ export default function App() {
       .get('http://localhost:3000/api/movies/trending-movies')
       .then(response => {
         setData(response.data);
-
+        setIsLoading(false);
         // Extract posters safely
         const posters = response.data.results
           .map((poster: any) =>
@@ -30,10 +32,16 @@ export default function App() {
       })
       .catch(console.error);
       
+    setIsLoading(true);
+
     // for TV Shows
     axios
     .get('http://localhost:3000/api/movies/trending-tv')
-    .then(response => setTvData(response.data))
+    .then(response => {
+      setTvData(response.data);
+      setIsLoading(false);
+      }
+    )
     .catch(console.error);
   }, []);
 
@@ -48,26 +56,41 @@ export default function App() {
 
         {/* MOVIES CARDS */}
         <div className="my-10 flex flex-row justify-center">
-          <div className="divider divider-info min-w-[80vw]"><p className="text-2xl font-extrabold">Trending Movies</p></div>
+          <div className="divider divider-info min-w-[80vw]"><Link to="/trendings" className="text-2xl font-extrabold">Trending Movies</Link></div>
         </div>
         <div className="grid grid-rows md:grid-cols-3 lg:grid-cols-5 justify-center my-5 gap-5 mx-10">
-          {data && data.results.slice(0, 5).map((movie: any) => (
+          {isLoading ? (
+            Array.from({ length: 5 }).map((_, index) => (
+              <div
+                key={index}
+                className="bg-base-100 max-w-full shadow-sm text-center p-6 animate-pulse"
+              >
+                <div className="h-64 bg-gray-300 rounded mb-4" />
+                <div className="h-5 bg-gray-300 rounded mb-2" />
+                <div className="h-4 bg-gray-300 rounded mb-2" />
+                <div className="h-4 bg-gray-300 rounded" />
+              </div>
+            ))
+          ) : (
+            data && data.results.slice(0, 5).map((movie: any) => (
             <Card
               key={movie.id}
               imgSrc={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
               altName={movie.title}
               className="bg-base-100 max-w-full shadow-sm text-center"
             >
-              <h2 className="card-title justify-center">
-                {movie.title}
-              </h2>
+              <Link to={`/movie_detail/${movie.id}`}>
+                <h2 className="card-title justify-center">
+                  {movie.title}
+                </h2>
+              </Link>
               <p className="text-center">{movie.overview}</p>
               <div className="card-actions justify-center">
                 <div className="badge badge-outline">Rate: {movie.vote_average.toFixed(1)}</div>
                 <div className="badge badge-outline">Vote: {movie.vote_count}</div>
               </div>
             </Card>
-          ))}
+          )))}
         </div>
         {/* END OF MOVIES CARDS */}
 
@@ -76,23 +99,38 @@ export default function App() {
           <div className="divider divider-info min-w-[80vw]"><p className="text-2xl font-extrabold">TV Shows</p></div>
         </div>
         <div className="grid grid-rows md:grid-cols-3 lg:grid-cols-5 justify-center my-5 gap-5 mx-10">
-          {tvData && tvData.results.slice(0, 5).map((tv: any) => (
+          {isLoading ? (
+            Array.from({ length: 5 }).map((_, index) => (
+              <div
+                key={index}
+                className="bg-base-100 max-w-full shadow-sm text-center p-6 animate-pulse"
+              >
+                <div className="h-64 bg-gray-300 rounded mb-4" />
+                <div className="h-5 bg-gray-300 rounded mb-2" />
+                <div className="h-4 bg-gray-300 rounded mb-2" />
+                <div className="h-4 bg-gray-300 rounded" />
+              </div>
+            ))
+          ) : (
+            tvData && tvData.results.slice(0, 5).map((tv: any) => (
             <Card
               key={tv.id}
               imgSrc={`https://image.tmdb.org/t/p/w500${tv.poster_path}`}
               altName={tv.original_name}
               className="bg-base-100 max-w-full shadow-sm text-center"
             >
-              <h2 className="card-title justify-center">
-                {tv.name}
-              </h2>
+              <Link to="/">
+                <h2 className="card-title justify-center">
+                  {tv.original_name}
+                </h2>
+              </Link>
               <p className="text-center">{tv.overview}</p>
               <div className="card-actions justify-center">
                 <div className="badge badge-outline">Rate: {tv.vote_average.toFixed(1)}</div>
                 <div className="badge badge-outline">Vote: {tv.vote_count}</div>
               </div>
             </Card>
-          ))}
+          )))}
         </div>
         {/* END OF TV SHOWS CARDS */}
 

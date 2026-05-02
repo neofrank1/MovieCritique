@@ -25,7 +25,7 @@ export default function Header() {
                         <li><Link to="/signup">Sign Up</Link></li>
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-xl">MovieCritique</a>
+                <Link to="/" className="btn btn-ghost text-xl">MovieCritique</Link>
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1 space-x-2">
