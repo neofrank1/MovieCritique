@@ -5,6 +5,7 @@ import { Card } from "../components/Card";
 import type { TrendingData } from "../types/trendings.types";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router";
 
 export default function Trendings() {
 
@@ -51,9 +52,11 @@ export default function Trendings() {
                   altName={movie.title}
                   className="bg-base-100 max-w-full shadow-sm text-center"
                 >
-                  <h2 className="card-title justify-center">
-                    {movie.title}
-                  </h2>
+                  <Link to={`/movie_detail/${movie.id}/1`}>
+                    <h2 className="card-title justify-center">
+                      {movie.title}
+                    </h2>
+                  </Link>
                   <p className="text-center">{movie.overview}</p>
                   <div className="card-actions justify-center">
                     <div className="badge badge-outline">Rate: {movie.vote_average.toFixed(1)}</div>
