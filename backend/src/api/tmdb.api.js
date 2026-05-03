@@ -157,3 +157,35 @@ export const searchMoviesbyId = async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch movie by ID' });
     }
 }
+
+export const searchTVbyId = async (req, res) => {
+    try {
+        const id = req.query.id;
+        
+        if (!id) {
+            return res.status(400).json({ error: 'TV Show ID is required' });
+        }
+
+         const options = {
+            method: 'GET',
+            url: `https://api.themoviedb.org/3/tv/${id}?language=en-US`,
+            headers: {
+                accept: 'application/json',
+                Authorization: `Bearer ${process.env.TMDB_ACCESS_TOKEN}`
+            }
+        };
+
+        const response = await axios.request(options);
+
+        if (response.status !== 200) {
+            console.error('Error fetching TV show by ID:', response.statusText);
+            return res.status(response.status).json({ error: 'Failed to fetch TV show by ID' });
+        }
+
+        return res.json(response.data);
+
+    } catch (error) {
+        console.error('Error fetching TV show by ID:', error.message);
+        res.status(500).json({ error: 'Failed to fetch TV show by ID' });
+    }
+}

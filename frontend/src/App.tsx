@@ -79,7 +79,7 @@ export default function App() {
               altName={movie.title}
               className="bg-base-100 max-w-full shadow-sm text-center"
             >
-              <Link to={`/movie_detail/${movie.id}`}>
+              <Link to={`/movie_detail/${movie.id}/1`}>
                 <h2 className="card-title justify-center">
                   {movie.title}
                 </h2>
@@ -119,7 +119,7 @@ export default function App() {
               altName={tv.original_name}
               className="bg-base-100 max-w-full shadow-sm text-center"
             >
-              <Link to="/">
+              <Link to={`/movie_detail/${tv.id}/2`}>
                 <h2 className="card-title justify-center">
                   {tv.original_name}
                 </h2>

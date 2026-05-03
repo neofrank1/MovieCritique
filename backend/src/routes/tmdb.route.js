@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { popularMovies, popularTV, trendingMovies, trendingTV, searchMoviesbyId } from '../api/tmdb.api.js';
+import { popularMovies, popularTV, trendingMovies, trendingTV, searchMoviesbyId, searchTVbyId } from '../api/tmdb.api.js';
 
 const router = Router();
 
@@ -10,6 +10,7 @@ router.get('/searchMoviebyId', searchMoviesbyId);
 
 router.get('/popular-tv', popularTV);
 router.get('/trending-tv', trendingTV);
+router.get('/searchTVbyId', searchTVbyId);
 
 
 export default router;

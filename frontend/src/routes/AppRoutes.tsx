@@ -8,7 +8,8 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/" element={<App />} />
       <Route path="/trendings" element={<Trendings />} />
-      <Route path="/movie_detail/:id" element={<Detail />} />
+      <Route path="/movie_detail/:id/:type" element={<Detail />} />
+      <Route path="/tv_detail/:id/:type" element={<Detail />} />
     </Routes>
   );
 }
