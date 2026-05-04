@@ -189,3 +189,67 @@ export const searchTVbyId = async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch TV show by ID' });
     }
 }
+
+export const movieCredits = async (req, res) => {
+    try {
+        const id = req.query.id;
+
+        if (!id) {
+            return res.status(400).json({ error: 'Movie ID is required' });
+        }
+
+        const options = {
+            method: 'GET',
+            url: `https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`,
+            headers: {
+                accept: 'application/json',
+                Authorization: `Bearer ${process.env.TMDB_ACCESS_TOKEN}`
+            }
+        };
+
+        const response = await axios.request(options);
+
+        if (response.status !== 200) {
+            console.error('Error fetching movie credits:', response.statusText);
+            return res.status(response.status).json({ error: 'Failed to fetch movie credits' });
+        }
+
+        return res.json(response.data);
+
+    }  catch(error) {
+        console.error('Error fetching movie credits:', error.message);
+        res.status(500).json({ error: 'Failed to fetch movie credits' });
+    }
+}
+
+export const tvCredits = async (req, res) => {
+    try {
+        const id = req.query.id;
+
+        if (!id) {
+            return res.status(400).json({ error: 'TV Series ID is required' });
+        }
+
+        const options = {
+            method: 'GET',
+            url: `https://api.themoviedb.org/3/tv/${id}/credits?language=en-US`,
+            headers: {
+                accept: 'application/json',
+                Authorization: `Bearer ${process.env.TMDB_ACCESS_TOKEN}`
+            }
+        };
+
+        const response = await axios.request(options);
+
+        if (response.status !== 200) {
+            console.error('Error fetching TV Series credits:', response.statusText);
+            return res.status(response.status).json({ error: 'Failed to fetch TV Series credits' });
+        }
+
+        return res.json(response.data);
+
+    }  catch(error) {
+        console.error('Error fetching TV Series credits:', error.message);
+        res.status(500).json({ error: 'Failed to fetch TV Series credits' });
+    }
+}
