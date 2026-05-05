@@ -22,7 +22,7 @@ export default function Header() {
                         </ul>
                         </li>
                         <li><Link to="/login">Login</Link></li>
-                        <li><Link to="/signup">Sign Up</Link></li>
+                        <li><Link to="/sign_up">Sign Up</Link></li>
                     </ul>
                 </div>
                 <Link to="/" className="btn btn-ghost text-xl">MovieCritique</Link>
@@ -35,7 +35,7 @@ export default function Header() {
                         <details>
                         <summary>Shows</summary>
                         <ul className="p-2 bg-base-100 w-40 z-1">
-                             <li><Link to="/movies">Movies</Link></li>
+                            <li><Link to="/movies">Movies</Link></li>
                             <li><Link to="/tv-shows">TV Shows</Link></li>
                         </ul>
                         </details>
@@ -44,8 +44,8 @@ export default function Header() {
             </div>
             <div className="navbar-end">
                 <div className="hidden lg:block space-x-2">
-                    <a className="btn btn-accent">Login</a>
-                    <a className="btn">Sign Up</a>
+                    <Link to="/login" className="btn btn-accent">Login</Link>
+                    <Link to="/sign_up"className="btn">Sign Up</Link>
                 </div>
             </div>
         </div>

@@ -121,7 +121,7 @@ export default function App() {
             >
               <Link to={`/movie_detail/${tv.id}/2`}>
                 <h2 className="card-title justify-center">
-                  {tv.original_name}
+                  {tv.name}
                 </h2>
               </Link>
               <p className="text-center">{tv.overview}</p>

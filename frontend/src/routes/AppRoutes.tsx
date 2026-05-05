@@ -3,6 +3,9 @@ import App from '../App.tsx'
 import Trendings from '../pages/Trendings.tsx'
 import Detail from '../pages/movies/Detail.tsx'
 import Upcoming from '../pages/Upcoming.tsx'
+import Error404 from '../pages/error/error_404.tsx'
+import Login from '../pages/auth/Login.tsx'
+import Signup from '../pages/auth/Signup.tsx'
 
 export default function AppRoutes() {
   return (
@@ -11,8 +14,10 @@ export default function AppRoutes() {
       <Route path="/trendings" element={<Trendings />} />
       <Route path="/movie_detail/:id/:type" element={<Detail />} />
       <Route path="/tv_detail/:id/:type" element={<Detail />} />
-      <Route path="*" element={<h1>404 Not Found</h1>} />
+      <Route path="*" element={<Error404/>} />
       <Route path="/upcoming" element={<Upcoming />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/sign_up" element={<Signup />} />
     </Routes>
   );
 }
