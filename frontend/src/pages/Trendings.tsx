@@ -32,7 +32,7 @@ export default function Trendings() {
           <p className="text-center text-lg mb-10">Discover what's hot right now in the world of entertainment. Explore the latest trending Movies, and find your next favorite watch!</p>
           {/* Add your trending movies and TV shows content here */}
           <div className="grid grid-rows md:grid-cols-3 lg:grid-cols-5 justify-center my-5 gap-5 mx-10">
-            {isLoading ? (
+            {isLoading || !movies ? (
               Array.from({ length: 20 }).map((_, index) => (
                 <div
                   key={index}

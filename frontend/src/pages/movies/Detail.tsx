@@ -11,6 +11,8 @@ export default function Detail() {
     let { id, type } = useParams();
     const [dataDetail, setDataDetail] = useState<any>(null);
     const [cast, setCast] = useState<any[]>([]);
+    const [director, setDirector] = useState<string>('');
+    const [writer, setWriter] = useState<string>('');
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() =>{
@@ -26,6 +28,8 @@ export default function Detail() {
             axios.get(`http://localhost:3000/api/movies/movieCredits?id=${id}`)
             .then(response => {
                 setCast(response.data.cast);
+                setDirector(response.data.crew.find((person: any) => person.job === 'Director')?.name || "N/A");
+                setWriter(response.data.crew.find((person: any) => person.job === 'Writer')?.name || "N/A");
                 setIsLoading(false);
             })
             .catch(console.error);
@@ -41,9 +45,12 @@ export default function Detail() {
             axios.get(`http://localhost:3000/api/movies/tvCredits?id=${id}`)
             .then(response => {
                 setCast(response.data.cast);
+                setDirector(response.data.crew.find((person: any) => person.job === 'Director')?.name || "N/A");
+                setWriter(response.data.crew.find((person: any) => person.job === 'Writer')?.name || "N/A");
                 setIsLoading(false);
             })
             .catch(console.error);
+
         }
     }, []);
 
@@ -51,7 +58,7 @@ export default function Detail() {
         <>
             <Header />
                 <AppPageLayout>
-                    {isLoading ? (
+                    {isLoading || !dataDetail ? (
                         <div className="text-center mt-10">
                             <p>Loading...</p>
                         </div>
@@ -72,8 +79,8 @@ export default function Detail() {
                                     {dataDetail.title ?? dataDetail.name}
                                 </h1>
                                     <p className='text-lg'>{dataDetail.overview}</p>
-                                    <p className='text-sm'>Director: {dataDetail.release_date ?? dataDetail.first_air_date}</p>
-                                    <p className='text-sm'>Written: {dataDetail.release_date ?? dataDetail.first_air_date}</p>
+                                    <p className='text-sm'>Director: {director}</p>
+                                    <p className='text-sm'>Written: {writer}</p>
                                     <p className='text-sm'>Release Date: {dataDetail.release_date ?? dataDetail.first_air_date}</p>
                                     <p className='text-sm'>Rating: {dataDetail.vote_average} / 10</p>
                                 </div>
@@ -85,7 +92,7 @@ export default function Detail() {
                                 {cast.map((casts) => (
                                     <Card
                                     key={casts.id}
-                                    imgSrc={`https://image.tmdb.org/t/p/w500${casts.profile_path}`}
+                                    imgSrc={casts.profile_path ? `https://image.tmdb.org/t/p/w500${casts.profile_path}` : `https://i.pinimg.com/736x/3c/67/75/3c67757cef723535a7484a6c7bfbfc43.jpg`}
                                     altName="Actor Name"
                                     className="min-w-[140px] max-w-[140px] bg-base-100 shadow-sm text-center"
                                     >
