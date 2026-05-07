@@ -77,7 +77,12 @@ export default function Signup() {
           </div>
         </form>
         <div className="flex flex-wrap items-center justify-cente mt-4 text-center">
-          <p className="m-0">Already have an account? <Link to="/login" className="text-blue-800">Login</Link> </p>
+          <p className="text-sm text-center text-gray-600">
+            Already have an account?{" "}
+            <Link to="/login" className="text-blue-500 hover:underline">
+              Login
+            </Link>
+          </p>
         </div>
       </Card>
     </div>
