@@ -14,8 +14,8 @@ export default function Signup() {
   const lastNameRef = useRef<HTMLInputElement>(null);
   const fistNameRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (e: React.FormEvent<HTMLInputElement>) => {
-    e.preventDefault();
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     // Handle form submission logic here
 
     const formData = {
@@ -35,7 +35,7 @@ export default function Signup() {
       <Card className="w-full max-w-2xl p-2 shadow-lg bg-base-100">
         <h2 className="text-2xl font-bold mb-2 text-center">Sign Up</h2>
         <p className="text-center mb-6">Create your account to get started.</p>
-        <form onSubmit={handleSubmit}>
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="flex flex-nowrap flex-col md:flex-row justify-between gap-4">
             <fieldset className="fieldset flex-1">
               <legend className="fieldset-legend">First Name</legend>
