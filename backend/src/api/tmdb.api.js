@@ -285,3 +285,40 @@ export const upcomingMovies = async (req, res) => {
         res.status(500).json({ error: 'Failed to fetch upcoming movies' });
     }
 }
+
+export const searchMovies = async (req, res) => {
+    try {
+        const query = req.query.query;
+        const page = req.query.page;
+
+        if (!query) {
+            return res.status(400).json({ error: 'Search query is required' });
+        }
+
+        if (!page || page <= 0) {
+            return res.status(400).json({ error: 'Invalid page number or No Page Number given' });
+        }
+
+        const options = {
+            method: 'GET',
+            url: `https://api.themoviedb.org/3/search/movie?query=${encodeURIComponent(query)}&language=en-US&page=${page || 1}`,
+            headers: {
+                accept: 'application/json',
+                Authorization: `Bearer ${process.env.TMDB_ACCESS_TOKEN}`
+            }
+        };
+
+        const response = await axios.request(options);
+
+        if (response.status !== 200) {
+            console.error('Error searching movies:', response.statusText);
+            return res.status(response.status).json({ error: 'Failed to search movies' });
+        }
+
+        return res.json(response.data);
+
+    } catch (error) {
+        console.error('Error searching movies:', error.message);
+        res.status(500).json({ error: 'Failed to search movies' });
+    }
+}

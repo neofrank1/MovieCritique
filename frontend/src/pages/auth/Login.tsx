@@ -43,7 +43,7 @@ export default function Login() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen lg:px-0 px-4">
-      <Card className="w-full max-w-md p-8 shadow-lg">
+      <Card className="w-full max-w-md p-8 shadow-lg bg-base-200">
         <h2 className="text-2xl font-bold mb-6 text-center mx-auto">Login</h2>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>

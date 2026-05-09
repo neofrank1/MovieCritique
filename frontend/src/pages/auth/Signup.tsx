@@ -127,7 +127,7 @@ export default function Signup() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen px-4">
-      <Card className="w-full max-w-2xl px-2 shadow-lg bg-base-100">
+      <Card className="w-full max-w-2xl px-2 shadow-lg bg-base-200">
         <h2 className="text-2xl font-bold mb-2 text-center">Sign Up</h2>
         <p className="text-center mb-6">Create your account to get started.</p>
         <form className="space-y-4" onSubmit={handleSubmit}>

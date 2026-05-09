@@ -6,6 +6,7 @@ import Upcoming from '../pages/Upcoming.tsx'
 import Error404 from '../pages/error/error_404.tsx'
 import Login from '../pages/auth/Login.tsx'
 import Signup from '../pages/auth/Signup.tsx'
+import MovieShows from '../pages/shows/MovieShows.tsx'
 
 export default function AppRoutes() {
   return (
@@ -18,6 +19,7 @@ export default function AppRoutes() {
       <Route path="/upcoming" element={<Upcoming />} />
       <Route path="/login" element={<Login />} />
       <Route path="/sign_up/:email?" element={<Signup />} />
+      <Route path="/movie_shows" element={<MovieShows />} />
     </Routes>
   );
 }

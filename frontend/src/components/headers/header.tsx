@@ -17,8 +17,8 @@ export default function Header() {
                         <li>
                         <a>Shows</a>
                         <ul className="p-2">
-                            <li><Link to="/movies">Movies</Link></li>
-                            <li><Link to="/tv-shows">TV Shows</Link></li>
+                            <li><Link to="/movie_shows">Movies</Link></li>
+                            <li><Link to="/tv_shows">TV Shows</Link></li>
                         </ul>
                         </li>
                         <li><Link to="/login">Login</Link></li>
@@ -35,8 +35,8 @@ export default function Header() {
                         <details>
                         <summary>Shows</summary>
                         <ul className="p-2 bg-base-100 w-40 z-1">
-                            <li><Link to="/movies">Movies</Link></li>
-                            <li><Link to="/tv-shows">TV Shows</Link></li>
+                            <li><Link to="/movie_shows">Movies</Link></li>
+                            <li><Link to="/tv_shows">TV Shows</Link></li>
                         </ul>
                         </details>
                     </li>
