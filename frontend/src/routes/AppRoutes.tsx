@@ -17,7 +17,7 @@ export default function AppRoutes() {
       <Route path="*" element={<Error404/>} />
       <Route path="/upcoming" element={<Upcoming />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/sign_up" element={<Signup />} />
+      <Route path="/sign_up/:email?" element={<Signup />} />
     </Routes>
   );
 }

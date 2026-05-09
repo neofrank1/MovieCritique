@@ -1,19 +1,14 @@
 import { Link } from "react-router";
 import { Card } from "../../components/Card";
 import React from "react";
-
-type ErrorData = {
-  errorTrigger: boolean;
-  errorMessage: string;
-}
-
+import { type ErrorLoginData } from "../../types/error.types";
 
 export default function Login() {
   
   const emailRef = React.useRef<HTMLInputElement>(null);
   const passwordRef = React.useRef<HTMLInputElement>(null);
-  const [errorEmail, setErrorEmail] = React.useState<ErrorData>({ errorTrigger: false, errorMessage: "" });
-  const [errorPassword, setErrorPassword] = React.useState<ErrorData>({ errorTrigger: false, errorMessage: "" });
+  const [errorEmail, setErrorEmail] = React.useState<ErrorLoginData>({ errorTrigger: false, errorMessage: "" });
+  const [errorPassword, setErrorPassword] = React.useState<ErrorLoginData>({ errorTrigger: false, errorMessage: "" });
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

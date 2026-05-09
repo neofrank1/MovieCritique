@@ -1,4 +1,5 @@
 'use client'
+import {Link} from "react-router";
 
 export default function Hero() {
   return (
@@ -10,7 +11,7 @@ export default function Hero() {
             is a platform for discovering movies and TV shows, featuring reviews, search tools, 
             trending titles, and upcoming releases—all in one place.
           </p>
-          <button className="btn btn-accent">Get Started</button>
+          <Link to="/login" className="btn btn-accent">Get Started</Link>
           </div>
       </div>
     </div>
