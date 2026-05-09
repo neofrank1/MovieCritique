@@ -7,6 +7,7 @@ import Error404 from '../pages/error/error_404.tsx'
 import Login from '../pages/auth/Login.tsx'
 import Signup from '../pages/auth/Signup.tsx'
 import MovieShows from '../pages/shows/MovieShows.tsx'
+import TVShows from '../pages/shows/TvShows.tsx'
 
 export default function AppRoutes() {
   return (
@@ -20,6 +21,7 @@ export default function AppRoutes() {
       <Route path="/login" element={<Login />} />
       <Route path="/sign_up/:email?" element={<Signup />} />
       <Route path="/movie_shows" element={<MovieShows />} />
+      <Route path="/tv_shows" element={<TVShows />} />
     </Routes>
   );
 }

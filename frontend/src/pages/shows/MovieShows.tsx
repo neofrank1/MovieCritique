@@ -13,10 +13,17 @@ export default function MovieShows() {
     const [page, setPage] = useState(1);
     const [searchQuery, setSearchQuery] = useState<string>("");
     const [pageDisabled, setPageDisabled] = useState(false);
+    const [isSearching, setIsSearching] = useState(false);
 
     useEffect(() => {
         setIsLoading(true);
-        axios.get(`http://localhost:3000/api/movies/upcoming-movies?page=${page}`)
+        let endpoint = `http://localhost:3000/api/movies/upcoming-movies?page=${page}`;
+        
+        if (isSearching && searchQuery.trim() !== "") {
+            endpoint = `http://localhost:3000/api/movies/searchMovies?query=${searchQuery}&page=${page}`;
+        }
+        
+        axios.get(endpoint)
             .then(response => {
                 setMovies(response.data);
                 setIsLoading(false);
@@ -24,7 +31,7 @@ export default function MovieShows() {
                 setPageDisabled(totalPages <= 1);
             })
             .catch(console.error);
-    }, [page]);
+    }, [page, isSearching, searchQuery]);
 
     const dateFormatter = (dateString: string) => {
         const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -47,15 +54,13 @@ export default function MovieShows() {
     };
 
     const submitSearch = () => {
-        if (searchQuery.trim() === "") return;
+        if (searchQuery.trim() === "") {
+            setIsSearching(false);
+            setPage(1);
+            return;
+        }
+        setIsSearching(true);
         setPage(1);
-        setIsLoading(true);
-        axios.get(`http://localhost:3000/api/movies/searchMovies?query=${searchQuery}&page=${page}`)
-            .then(response => {
-                setMovies(response.data);
-                setIsLoading(false);
-            })
-            .catch(console.error);
     }
 
     useEffect(() => {
