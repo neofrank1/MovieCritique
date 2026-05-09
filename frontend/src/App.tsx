@@ -1,121 +1,142 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import axios from 'axios';
+import Header from './components/headers/header';
+import Footer from './components/footer/footer';
+import LandingPageLayout from './components/layout/landingPageLayout';
+import SignupCard from './components/landPageComponents/signupCard';
+import Hero from './components/landPageComponents/hero';
+import { Card } from './components/Card';
+import DescriptionCard from './components/landPageComponents/description';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router';
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+
+  const [data, setData] = useState<any>(null);
+  const [tvData, setTvData] = useState<any>(null);
+  const [posterData, setPosterData] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // for Movies
+    axios
+      .get('http://localhost:3000/api/movies/trending-movies')
+      .then(response => {
+        setData(response.data);
+        setIsLoading(false);
+        // Extract posters safely
+        const posters = response.data.results
+          .map((poster: any) =>
+            `https://image.tmdb.org/t/p/w500${poster.poster_path}`
+          );
+        setPosterData(posters);
+      })
+      .catch(console.error);
+      
+    setIsLoading(true);
+
+    // for TV Shows
+    axios
+    .get('http://localhost:3000/api/movies/trending-tv')
+    .then(response => {
+      setTvData(response.data);
+      setIsLoading(false);
+      }
+    )
+    .catch(console.error);
+  }, []);
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+      <Header />
+      <LandingPageLayout>
+        <Hero />
+        <div className='grid grid-row max-w-full min-h-[30vh] items-center m-10 text-center sm:justify-center'>
+          <DescriptionCard posterData={posterData}/>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+        {/* MOVIES CARDS */}
+        <div className="my-10 flex flex-row justify-center">
+          <div className="divider divider-info min-w-[80vw]"><Link to="/trendings" className="text-2xl font-extrabold">Trending Movies</Link></div>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
+        <div className="grid grid-rows md:grid-cols-3 lg:grid-cols-5 justify-center my-5 gap-5 mx-10">
+          {isLoading ? (
+            Array.from({ length: 5 }).map((_, index) => (
+              <div
+                key={index}
+                className="bg-base-100 max-w-full shadow-sm text-center p-6 animate-pulse"
+              >
+                <div className="h-64 bg-gray-300 rounded mb-4" />
+                <div className="h-5 bg-gray-300 rounded mb-2" />
+                <div className="h-4 bg-gray-300 rounded mb-2" />
+                <div className="h-4 bg-gray-300 rounded" />
+              </div>
+            ))
+          ) : (
+            data && data.results.slice(0, 5).map((movie: any) => (
+            <Card
+              key={movie.id}
+              imgSrc={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+              altName={movie.title}
+              className="bg-base-100 max-w-full shadow-sm text-center"
+            >
+              <Link to={`/movie_detail/${movie.id}/1`}>
+                <h2 className="card-title justify-center">
+                  {movie.title}
+                </h2>
+              </Link>
+              <p className="text-center">{movie.overview}</p>
+              <div className="card-actions justify-center">
+                <div className="badge badge-outline">Rate: {movie.vote_average.toFixed(1)}</div>
+                <div className="badge badge-outline">Vote: {movie.vote_count}</div>
+              </div>
+            </Card>
+          )))}
         </div>
-      </section>
+        {/* END OF MOVIES CARDS */}
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+        {/* TV SHOWS CARDS */}
+        <div className="my-10 flex flex-row justify-center">
+          <div className="divider divider-info min-w-[80vw]"><p className="text-2xl font-extrabold">TV Shows</p></div>
+        </div>
+        <div className="grid grid-rows md:grid-cols-3 lg:grid-cols-5 justify-center my-5 gap-5 mx-10">
+          {isLoading ? (
+            Array.from({ length: 5 }).map((_, index) => (
+              <div
+                key={index}
+                className="bg-base-100 max-w-full shadow-sm text-center p-6 animate-pulse"
+              >
+                <div className="h-64 bg-gray-300 rounded mb-4" />
+                <div className="h-5 bg-gray-300 rounded mb-2" />
+                <div className="h-4 bg-gray-300 rounded mb-2" />
+                <div className="h-4 bg-gray-300 rounded" />
+              </div>
+            ))
+          ) : (
+            tvData && tvData.results.slice(0, 5).map((tv: any) => (
+            <Card
+              key={tv.id}
+              imgSrc={`https://image.tmdb.org/t/p/w500${tv.poster_path}`}
+              altName={tv.original_name}
+              className="bg-base-100 max-w-full shadow-sm text-center"
+            >
+              <Link to={`/movie_detail/${tv.id}/2`}>
+                <h2 className="card-title justify-center">
+                  {tv.name}
+                </h2>
+              </Link>
+              <p className="text-center">{tv.overview}</p>
+              <div className="card-actions justify-center">
+                <div className="badge badge-outline">Rate: {tv.vote_average.toFixed(1)}</div>
+                <div className="badge badge-outline">Vote: {tv.vote_count}</div>
+              </div>
+            </Card>
+          )))}
+        </div>
+        {/* END OF TV SHOWS CARDS */}
+
+        <SignupCard />
+      </LandingPageLayout>
+      <Footer />
     </>
   )
 }
-
-export default App
