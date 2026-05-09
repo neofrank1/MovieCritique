@@ -1,10 +1,5 @@
-import connectDB from "./config/database.js";
+import pool from "./config/database.js";
 import app from "./app.js";
-import dotenv from 'dotenv';
-
-dotenv.config({
-    path: './.env'
-});
 
 const startServer = async () => {
     try {
@@ -16,7 +11,12 @@ const startServer = async () => {
         app.listen(process.env.PORT_NUMBER || process.env.ALT_PORT_NUMBER, () => {
             console.log(`Server is running on port ${process.env.PORT_NUMBER || process.env.ALT_PORT_NUMBER}`);
         });
-        await connectDB();
+
+        pool.on('error', (err) => {
+            console.error('Unexpected error on idle client:', err.message);
+            throw err;
+        });
+
     } catch (error) {
         console.error('Error starting the server:', error.message);
         console.error('Error connecting to DB:', error.message);
