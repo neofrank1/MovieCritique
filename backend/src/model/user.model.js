@@ -1,4 +1,4 @@
-import { pool } from '../config/database.js';
+import pool from '../config/database.js';
 
 export const createUser = async (username, email, password) => {
     try {
@@ -9,6 +9,16 @@ export const createUser = async (username, email, password) => {
         return result.rows[0];
     } catch (error) {
         console.error('Error creating user:', error);
+        throw error;
+    }
+};
+
+export const getCars = async () => {
+    try {
+        const result = await pool.query('SELECT * FROM cars');
+        return result.rows;
+    } catch (error) {
+        console.error('Error fetching cars:', error);
         throw error;
     }
 };

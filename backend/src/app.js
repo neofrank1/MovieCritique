@@ -13,7 +13,9 @@ app.use(cors(corsOptions));
 
 
 import tmdbRoutes from './routes/tmdb.route.js';
+import userRoutes from './routes/user.route.js';
 
+app.use('/api/users', userRoutes);
 app.use('/api/movies', tmdbRoutes);
 
 // Checker
