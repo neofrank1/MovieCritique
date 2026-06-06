@@ -4,10 +4,10 @@ services:
     image: postgres:16-alpine
     ports:
       - "5432:5432"
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: d@tabase_123
-      POSTGRES_DB: traveljournal
+    environment: # Make your own DB for this Cointainer
+      POSTGRES_USER: 
+      POSTGRES_PASSWORD: 
+      POSTGRES_DB: 
     volumes:
       - pgdata:/var/lib/postgresql/data
     restart: unless-stopped
