@@ -1,0 +1,38 @@
+
+services:
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: d@tabase_123
+      POSTGRES_DB: traveljournal
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+  backend:
+    build: ./backend
+    ports:
+      - "3000:3000"       # change to your backend port
+    volumes:
+      - ./backend:/src    # live reload during development
+      - /backend/node_modules    # prevent overwriting node_modules
+    env_file:
+      - ./backend/.env    # optional
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5173:5173"       # change to your frontend port
+    volumes:
+      - ./frontend:/src
+      - /frontend/node_modules
+    depends_on:
+      - backend
+    env_file:
+      - ./frontend/.env   # optional
+    required:
+      - false
+volumes:
+  pgdata:
