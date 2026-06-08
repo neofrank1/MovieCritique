@@ -1,38 +1,43 @@
-
 services:
   db:
     image: postgres:16-alpine
     ports:
       - "5432:5432"
-    environment: # Make your own DB for this Cointainer
+    environment: # Make your own DB for this Container
       POSTGRES_USER: 
       POSTGRES_PASSWORD: 
       POSTGRES_DB: 
     volumes:
       - pgdata:/var/lib/postgresql/data
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d traveljournal"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
   backend:
     build: ./backend
     ports:
       - "3000:3000"       # change to your backend port
     volumes:
-      - ./backend:/src    # live reload during development
-      - /backend/node_modules    # prevent overwriting node_modules
+      - ./backend:/usr/app:delegated    # live reload during development
+      - /usr/app/node_modules    # prevent overwriting node_modules
+    depends_on:
+      db:
+        condition: service_healthy
     env_file:
       - ./backend/.env    # optional
+    restart: unless-stopped
 
   frontend:
     build: ./frontend
     ports:
       - "5173:5173"       # change to your frontend port
     volumes:
-      - ./frontend:/src
-      - /frontend/node_modules
+      - ./frontend:/usr/app:delegated
+      - /usr/app/node_modules
     depends_on:
       - backend
-    env_file:
-      - ./frontend/.env   # optional
-    required:
-      - false
 volumes:
   pgdata:
