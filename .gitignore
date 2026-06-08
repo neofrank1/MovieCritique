@@ -29,3 +29,6 @@ backend/node_modules
 
 # Docker related ignores
 docker-compose.yml
+
+# Ignore drizzle generated files
+backend/drizzle/
