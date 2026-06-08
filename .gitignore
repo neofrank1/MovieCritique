@@ -26,3 +26,6 @@ frontend/*.sw?
 # Backend specific ignores
 backend/.env*
 backend/node_modules
+
+# Docker related ignores
+docker-compose.yml

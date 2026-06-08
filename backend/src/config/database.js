@@ -1,17 +1,12 @@
-import { Client } from 'pg'
+import pg from "pg";
+import { drizzle } from "drizzle-orm/node-postgres";
+const { Pool } = pg;
 
-const connectDB = async () => {
-    const client = new Client({
-        host: process.env.DB_HOST,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME,
-        port: process.env.DB_PORT
-    })
+export const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  max: 10,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 5000,
+});
 
-    await client.connect()
-    console.log('Connected to PostgreSQL database')
-    return client
-}
-
-export default connectDB;
+export const db = drizzle(pool);
