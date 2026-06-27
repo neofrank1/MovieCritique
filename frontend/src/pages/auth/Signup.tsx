@@ -1,12 +1,13 @@
 import { Card } from "../../components/Card";
 import React from "react";
-import { Link, useParams } from "react-router";
+import { Link, useParams, useNavigate } from "react-router";
 import { useState, useRef } from "react";
 import { type ErrorSignupData } from "../../types/error.types";
-
+import axios from "axios";
 
 export default function Signup() {
 
+  let navigate = useNavigate();
   let { email } = useParams();
 
   const [error, setError] = useState<ErrorSignupData>({
@@ -120,7 +121,21 @@ export default function Signup() {
       !newErrorState.errorPasswordTrigger &&
       !newErrorState.errorConfirmPasswordTrigger) {
       // Perform signup action, e.g., send data to the server
-      console.log("Signing up with:", formData);
+      axios.post("http://localhost:3000/auth/register", {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        password: formData.password,
+      })
+      .then(response => {
+        // Handle successful signup, e.g., redirect to login page
+        console.log("Signup successful");
+        navigate(`/login/${formData.email}`);
+      })
+      .catch(error => {
+        // Handle signup error, e.g., display error message
+        console.error("Signup error:", error);
+      });
     }
 
   };

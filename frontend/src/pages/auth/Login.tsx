@@ -2,9 +2,11 @@ import { Link } from "react-router";
 import { Card } from "../../components/Card";
 import React from "react";
 import { type ErrorLoginData } from "../../types/error.types";
+import { useParams } from "react-router";
 
 export default function Login() {
   
+  let { email } = useParams();
   const emailRef = React.useRef<HTMLInputElement>(null);
   const passwordRef = React.useRef<HTMLInputElement>(null);
   const [errorEmail, setErrorEmail] = React.useState<ErrorLoginData>({ errorTrigger: false, errorMessage: "" });
@@ -54,6 +56,7 @@ export default function Login() {
               type="email"
               id="email"
               name="email"
+              defaultValue={email || ""}
               className={`mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm ${errorEmail.errorTrigger ? "focus:outline-red-500 border-red-500" : ""}`}
               placeholder="Enter your email"
               ref={emailRef}

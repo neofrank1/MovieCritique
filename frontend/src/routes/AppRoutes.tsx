@@ -18,7 +18,7 @@ export default function AppRoutes() {
       <Route path="/tv_detail/:id/:type" element={<Detail />} />
       <Route path="*" element={<Error404/>} />
       <Route path="/upcoming" element={<Upcoming />} />
-      <Route path="/login" element={<Login />} />
+      <Route path="/login/:email?" element={<Login />} />
       <Route path="/sign_up/:email?" element={<Signup />} />
       <Route path="/movie_shows" element={<MovieShows />} />
       <Route path="/tv_shows" element={<TVShows />} />
