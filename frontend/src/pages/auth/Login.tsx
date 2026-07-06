@@ -2,11 +2,13 @@ import { Link } from "react-router";
 import { Card } from "../../components/Card";
 import React from "react";
 import { type ErrorLoginData } from "../../types/error.types";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
+import axios from "axios";
 
 export default function Login() {
   
   let { email } = useParams();
+  let navigate = useNavigate();
   const emailRef = React.useRef<HTMLInputElement>(null);
   const passwordRef = React.useRef<HTMLInputElement>(null);
   const [errorEmail, setErrorEmail] = React.useState<ErrorLoginData>({ errorTrigger: false, errorMessage: "" });
@@ -38,7 +40,21 @@ export default function Login() {
 
     if (FormData.email && FormData.password) {
       // Perform login action, e.g., send data to the server
-      console.log("Logging in with:", FormData);
+      console.log("Login Attempt");
+
+      axios.post("http://localhost:3000/auth/login", {
+        email: FormData.email,
+        password: FormData.password,
+      })
+      .then(response => {
+        // Handle successful signup, e.g., redirect to login page
+        console.log("Signup successful");
+        navigate(`/`);
+      })
+      .catch(error => {
+        // Handle signup error, e.g., display error message
+        console.error("Signup error:", error);
+      });
     }
 
   }

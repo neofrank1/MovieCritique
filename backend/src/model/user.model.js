@@ -42,3 +42,21 @@ export const registerUser = async (userData) => {
 
     return { user: newUser, userDetail: newUserDetail };
 };
+
+export const loginUser = async (loginData) => {
+    const { email, password } = loginData;
+
+    const userCheck = await db.select().from(user).where(eq(user.email, email));
+
+    if (!userCheck.length) {
+        return { message: "User not found" };
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, userCheck[0].password);
+
+    if (!isPasswordValid) {
+        return { message: "Invalid password" };
+    }
+
+    return { user: userCheck[0] };
+}
