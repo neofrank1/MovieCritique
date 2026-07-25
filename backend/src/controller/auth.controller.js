@@ -6,13 +6,14 @@ export const register = async (req, res) => {
 
     try {
         const newUser = await registerUser({ firstName, lastName, email, password });
+        if (newUser.error) {
+            return res.status(400).json({ message: newUser.error });
+        }
         return res.status(201).json({ message: "User registered successfully", user: newUser });
     } catch (error) {
         console.error("Error registering user:", error);
         return res.status(500).json({ message: "Internal server error" });
     }
-
-    return res.status(200).json({ message: "User registered successfully" });
 };
 
 export const login = async (req, res) => {
@@ -20,15 +21,16 @@ export const login = async (req, res) => {
 
     try {
         const user = await loginUser({ email, password });
+        if (user.error) {
+            return res.status(400).json({ message: user.error });
+        }
         const token = generateToken(user.id); // Assuming you have a function to generate a token
         res.cookie("token", token, cookieOptions); // Set the token in a cookie
-        res.json({token: token });
+        res.status(200).json({token: token });
     } catch (error) {
         console.error("Error logging in user:", error);
         return res.status(500).json({ message: "Internal server error" });
     }
-
-    return res.status(200).json({ message: "User logged in successfully" });
 }
 
 export const logout = (req, res) => {

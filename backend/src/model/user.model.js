@@ -18,12 +18,12 @@ export const registerUser = async (userData) => {
     .from(user)
     .where(eq(user.email, email));
 
-    if (existingUser.length) {
-        return { message: "User already exists" };
+    if (existingUser.length === 0) {
+        return { error: "User already exists" };
     }
 
     if (!password || password.length < 8) {
-        return { message: "Password must be at least 8 characters long" };
+        return { error: "Password must be at least 8 characters long" };
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -48,8 +48,8 @@ export const loginUser = async (loginData) => {
 
     const userCheck = await db.select().from(user).where(eq(user.email, email));
 
-    if (!userCheck.length) {
-        return { message: "User not found" };
+    if (userCheck.length === 0) {
+        return { error: "User not found" };
     }
 
     const isPasswordValid = await bcrypt.compare(password, userCheck[0].password);
